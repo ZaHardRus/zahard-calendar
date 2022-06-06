@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "username": "Denis",
+      "password": "123456"
+    },
+    {
+      "username": "Zahard",
+      "password": "123"
+    }
+  ],
+  "events": [
+    {
+      "author": "Zahard",
+      "date": "2022.06.01",
+      "description": "123123",
+      "guest": "Zahard",
+      "id": 1
+    },
+    {
+      "author": "Zahard",
+      "date": "2022.06.08",
+      "description": "46",
+      "guest": "Zahard",
+      "id": 2
+    },
+    {
+      "author": "Zahard",
+      "date": "2022.06.08",
+      "description": "46",
+      "guest": "Zahard",
+      "id": 3
+    },
+    {
+      "author": "Zahard",
+      "date": "2022.06.10",
+      "description": "789",
+      "guest": "Zahard",
+      "id": 4
+    },
+    {
+      "author": "Zahard",
+      "date": "2022.06.15",
+      "description": "Выпить таблы",
+      "guest": "Denis",
+      "id": 5
+    }
+  ]
+}
