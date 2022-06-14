@@ -5,8 +5,9 @@ import {IEvent} from "../models/event";
 import {Moment} from "moment";
 import {formatDate} from "../utils/formatDate";
 
+
 export const EventForm: FC = () => {
-    const [event, setEvent] = useState<IEvent>({author: '', date: '', guest: '', description: ''})
+    const [event, setEvent] = useState<IEvent>({author: '', date: '', guest: '', description: '', isCompleted: false})
     const {guests} = useAppSelector(state => state.event)
     const author = useAppSelector(state => state?.auth?.user?.username) as string
     const {createEvent} = useActions()
@@ -16,7 +17,7 @@ export const EventForm: FC = () => {
         }
     }
     const submitForm = () => {
-        createEvent({author, date: event.date, description: event.description, guest: event.guest})
+        createEvent({author, date: event.date, description: event.description, guest: event.guest, isCompleted: false})
     }
     return (
         <Form onFinish={submitForm}>

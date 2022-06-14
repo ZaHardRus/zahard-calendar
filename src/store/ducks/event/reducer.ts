@@ -27,6 +27,14 @@ export const eventReducer = (state: EventState = initialState, action: EventsAct
         case EventActionEnum.SET_ERROR: {
             return {...state, error: action.payload, isLoading: false}
         }
+        case EventActionEnum.TOGGLE_STATUS:{
+            return {
+                ...state,
+                events: [...state.events.map(el => el.id === action.payload.id
+                    ? {...el,isCompleted:action.payload.newStatus}
+                    : el)]
+            }
+        }
         default:
             return state
     }

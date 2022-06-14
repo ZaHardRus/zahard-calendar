@@ -12,38 +12,131 @@
   "events": [
     {
       "author": "Zahard",
-      "date": "2022.06.01",
-      "description": "123123",
+      "date": "2022.06.12",
+      "description": "Починить типы",
       "guest": "Zahard",
+      "isCompleted": true,
       "id": 1
     },
     {
       "author": "Zahard",
-      "date": "2022.06.08",
-      "description": "46",
+      "date": "2022.06.12",
+      "description": "dign iojgiuodh giudhg iurh geriugh iuergh eriugh eriugerug eriugh eriugh eriuhg eriu geriug herugheiur hgiueruerguerhg iuerhg iuerg iuerhg uieg",
       "guest": "Zahard",
+      "isCompleted": true,
       "id": 2
     },
     {
       "author": "Zahard",
-      "date": "2022.06.08",
-      "description": "46",
+      "date": "2022.06.13",
+      "description": "shygfuieghfjeh fuiwehrweu hfuiewh rweuih rfuweih uehfu we fuwe fuwe hfuwe",
       "guest": "Zahard",
+      "isCompleted": true,
       "id": 3
     },
     {
       "author": "Zahard",
-      "date": "2022.06.10",
-      "description": "789",
+      "date": "2022.06.13",
+      "description": "Ghbdthn",
       "guest": "Zahard",
+      "isCompleted": true,
       "id": 4
     },
     {
       "author": "Zahard",
-      "date": "2022.06.15",
-      "description": "Выпить таблы",
+      "date": "2022.06.14",
+      "description": "Привет сук",
       "guest": "Denis",
+      "isCompleted": true,
       "id": 5
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "123",
+      "guest": "Denis",
+      "isCompleted": true,
+      "id": 6
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "1233423434",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 7
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "123342343465y765y56",
+      "guest": "Denis",
+      "isCompleted": true,
+      "id": 8
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "123342343465y765y56h56h56h56h",
+      "guest": "Denis",
+      "isCompleted": true,
+      "id": 9
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "123342343465y765y56h56h56h56hregfergergergrfege",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 10
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "123342343465y765y56h56h56h56hregfergwefwefwefergergrfege",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 11
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "1",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 12
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "12",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 13
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "123",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 14
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "1234",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 15
+    },
+    {
+      "author": "Denis",
+      "date": "2022.06.14",
+      "description": "12345",
+      "guest": "Denis",
+      "isCompleted": false,
+      "id": 16
     }
   ]
 }

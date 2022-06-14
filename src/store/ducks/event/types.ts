@@ -13,7 +13,8 @@ export enum EventActionEnum {
     SET_EVENTS = 'event/SET_EVENTS',
     SET_IS_LOADING = 'event/SET_IS_LOADING',
     SET_ERROR = 'event/SET_ERROR',
-    FETCH_EVENTS = 'event/FETCH_EVENTS'
+    FETCH_EVENTS = 'event/FETCH_EVENTS',
+    TOGGLE_STATUS = 'event/TOGGLE_STATUS'
 }
 
 export interface SetGuestsAction {
@@ -39,10 +40,15 @@ export interface FetchEventsAction {
     type:EventActionEnum.FETCH_EVENTS,
     payload:Array<IEvent>
 }
+export interface ToggleStatusAction {
+    type:EventActionEnum.TOGGLE_STATUS,
+    payload:{id:string,newStatus:boolean}
+}
 
 export type EventsActions =
     SetGuestsAction |
     SetEventAction |
     SetErrorEventActions |
     SetIsLoadingEventAction |
-    FetchEventsAction
+    FetchEventsAction |
+    ToggleStatusAction

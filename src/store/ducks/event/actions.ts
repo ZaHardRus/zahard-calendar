@@ -4,7 +4,8 @@ import {
     SetErrorEventActions,
     SetEventAction,
     SetGuestsAction,
-    SetIsLoadingEventAction
+    SetIsLoadingEventAction,
+    ToggleStatusAction
 } from "./types";
 import {IUser} from "../../../models/user";
 import {IEvent} from "../../../models/event";
@@ -17,7 +18,8 @@ export const EventAC = {
     setEvents: (payload: IEvent): SetEventAction => ({type: EventActionEnum.SET_EVENTS, payload}),
     setError: (payload: string): SetErrorEventActions => ({type: EventActionEnum.SET_ERROR, payload}),
     setIsLoading: (payload: boolean): SetIsLoadingEventAction => ({type: EventActionEnum.SET_IS_LOADING, payload}),
-    fetchAllEvents:(payload:Array<IEvent>):FetchEventsAction =>({type:EventActionEnum.FETCH_EVENTS,payload}),
+    fetchAllEvents: (payload: Array<IEvent>): FetchEventsAction => ({type: EventActionEnum.FETCH_EVENTS, payload}),
+    toggleStatus:(payload:{id:string,newStatus:boolean}):ToggleStatusAction=>({type:EventActionEnum.TOGGLE_STATUS,payload}),
 
     fetchGuests: () => async (dispatch: AppDispatch) => {
         try {
@@ -32,15 +34,15 @@ export const EventAC = {
             dispatch(EventAC.setError('Ошибка при получении гостей'))
         }
     },
-    fetchEvents: (username:string) => async (dispatch: AppDispatch) => {
+    fetchEvents: (username: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(EventAC.setIsLoading(true))
             const {data: events} = await axios.get<Array<IEvent>>(`http://localhost:3001/events`)
-            const validEvents = events.filter(el=>el.author === username || el.guest === username)
+            const validEvents = events.filter(el => el.guest === username)
 
-            if(validEvents){
+            if (validEvents) {
                 dispatch(EventAC.fetchAllEvents(validEvents))
-            }else{
+            } else {
                 dispatch(EventAC.setError('Ошибка при запросе событий'))
             }
         } catch (e) {
@@ -48,17 +50,25 @@ export const EventAC = {
         }
     },
 
-
     createEvent: (event: IEvent) => async (dispatch: AppDispatch) => {
         try {
             const {data} = await axios.post('http://localhost:3001/events', event)
             if (data) {
                 dispatch(EventAC.setEvents(data))
-            }else{
+            } else {
                 dispatch(EventAC.setError('Ошибка при добавлении события'))
             }
         } catch (e) {
 
         }
+    },
+    fetchToggleStatus: ({id,prevStatus}:any) => async (dispatch: AppDispatch) => {
+        try {
+            axios.patch(`http://localhost:3001/events/${id}`,{isCompleted:!prevStatus})
+                .then(({data})=>dispatch(EventAC.toggleStatus({id:data.id,newStatus:data.isCompleted})))
+        }catch (e) {
+
+        }
     }
+
 }
