@@ -1,10 +1,8 @@
 import {Layout, Menu, Row} from "antd";
 import {useActions, useAppSelector} from "../store/hooks";
-import {useDispatch} from "react-redux";
-import {AuthAC} from "../store/ducks/auth/actions";
 
 export const Header = () => {
-    const {isAuth,user} = useAppSelector(state => state.auth)
+    const {isAuth, user} = useAppSelector(state => state.auth)
     const {logout} = useActions()
     const logoutHandler = () => {
         logout()

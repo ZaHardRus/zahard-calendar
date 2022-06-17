@@ -13,7 +13,7 @@ export const Events: React.FC<any> = () => {
     useEffect(() => {
         fetchGuests()
         fetchEvents(username)
-    }, [])
+    }, [username])
 
     return (
         <Layout className={'calendar'}>

@@ -14,7 +14,8 @@ export enum EventActionEnum {
     SET_IS_LOADING = 'event/SET_IS_LOADING',
     SET_ERROR = 'event/SET_ERROR',
     FETCH_EVENTS = 'event/FETCH_EVENTS',
-    TOGGLE_STATUS = 'event/TOGGLE_STATUS'
+    TOGGLE_STATUS = 'event/TOGGLE_STATUS',
+    DELETE_EVENT = 'event/DELETE_EVENT'
 }
 
 export interface SetGuestsAction {
@@ -44,6 +45,10 @@ export interface ToggleStatusAction {
     type:EventActionEnum.TOGGLE_STATUS,
     payload:{id:string,newStatus:boolean}
 }
+export interface DeleteEventAction {
+    type:EventActionEnum.DELETE_EVENT,
+    payload:string
+}
 
 export type EventsActions =
     SetGuestsAction |
@@ -51,4 +56,5 @@ export type EventsActions =
     SetErrorEventActions |
     SetIsLoadingEventAction |
     FetchEventsAction |
-    ToggleStatusAction
+    ToggleStatusAction |
+    DeleteEventAction

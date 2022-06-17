@@ -1,4 +1,5 @@
 import {
+    DeleteEventAction,
     EventActionEnum,
     FetchEventsAction,
     SetErrorEventActions,
@@ -20,6 +21,7 @@ export const EventAC = {
     setIsLoading: (payload: boolean): SetIsLoadingEventAction => ({type: EventActionEnum.SET_IS_LOADING, payload}),
     fetchAllEvents: (payload: Array<IEvent>): FetchEventsAction => ({type: EventActionEnum.FETCH_EVENTS, payload}),
     toggleStatus:(payload:{id:string,newStatus:boolean}):ToggleStatusAction=>({type:EventActionEnum.TOGGLE_STATUS,payload}),
+    deleteEvent:(payload:string):DeleteEventAction =>({type:EventActionEnum.DELETE_EVENT,payload}),
 
     fetchGuests: () => async (dispatch: AppDispatch) => {
         try {
@@ -64,11 +66,21 @@ export const EventAC = {
     },
     fetchToggleStatus: ({id,prevStatus}:any) => async (dispatch: AppDispatch) => {
         try {
-            axios.patch(`http://localhost:3001/events/${id}`,{isCompleted:!prevStatus})
-                .then(({data})=>dispatch(EventAC.toggleStatus({id:data.id,newStatus:data.isCompleted})))
+            const data = await axios.patch(`http://localhost:3001/events/${id}`,{isCompleted:!prevStatus})
+            dispatch(EventAC.toggleStatus({id:data.data.id,newStatus:data.data.isCompleted}))
+            return 1
         }catch (e) {
-
+            EventAC.setError('Произошла ошибка при изменении статуса')
+        }
+    },
+    fetchDeleteEvent:(id:string) => async (dispatch: AppDispatch) => {
+        try {
+            const response = await axios.delete(`http://localhost:3001/events/${id}`)
+            if(response.status === 200){
+                dispatch(EventAC.deleteEvent(id))
+            }
+        }catch (e) {
+            EventAC.setError('Произошла ошибка при удалении ивента')
         }
     }
-
 }

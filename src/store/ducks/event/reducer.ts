@@ -35,6 +35,12 @@ export const eventReducer = (state: EventState = initialState, action: EventsAct
                     : el)]
             }
         }
+        case EventActionEnum.DELETE_EVENT:{
+            return {
+                ...state,
+                events: [...state.events.filter(el=>el.id !== action.payload)]
+            }
+        }
         default:
             return state
     }

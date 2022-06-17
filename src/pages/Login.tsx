@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import {Button, Card, Form, Input, Layout, Row} from "antd";
-import {useDispatch} from "react-redux";
-import {AuthAC} from "../store/ducks/auth/actions";
 import {useActions, useAppSelector} from "../store/hooks";
 
 export const Login: React.FC<any> = () => {
@@ -10,7 +8,7 @@ export const Login: React.FC<any> = () => {
     const {isLoading, error} = useAppSelector(state => state.auth)
 
     const {login} = useActions()
-    const submit = () => login(username,password)
+    const submit = () => login(username, password)
 
     return (
         <Layout>
