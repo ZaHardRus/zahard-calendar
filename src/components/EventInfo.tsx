@@ -1,8 +1,10 @@
-import {IEvent} from "../models/event";
 import React from "react";
+import {useActions} from "../store/hooks";
+
+import {IEvent} from "../models/event";
+
 import {Table} from "antd";
-import {useActions, useAppSelector} from "../store/hooks";
-import { DeleteOutlined } from "@ant-design/icons";
+import {DeleteOutlined} from "@ant-design/icons";
 
 
 interface EventInfoProps {
@@ -11,20 +13,19 @@ interface EventInfoProps {
 }
 
 export const EventInfo: React.FC<EventInfoProps> = ({events, setEventInfo}) => {
-    const {fetchToggleStatus,fetchDeleteEvent} = useActions()
-    const {events:events1} = useAppSelector(state => state.event)
+    const {fetchToggleStatus, fetchDeleteEvent} = useActions()
 
     const toggleStatusHandler = async (value: boolean, parent: IEvent) => {
-        await  fetchToggleStatus({id: parent.id, prevStatus: value})
-        setEventInfo((prev:Array<IEvent>)=>[...prev.map((el: IEvent) => el.id === parent.id ? {
+        await fetchToggleStatus({id: parent.id, prevStatus: value})
+        setEventInfo((prev: Array<IEvent>) => [...prev.map((el: IEvent) => el.id === parent.id ? {
             ...el,
             isCompleted: !value
         } : el)])
     }
 
-    const deleteTask = async (id:string) => {
+    const deleteTask = async (id: string) => {
         await fetchDeleteEvent(id)
-        setEventInfo((prev:Array<IEvent>)=>[...prev.filter(el=>el.id !== id)])
+        setEventInfo((prev: Array<IEvent>) => [...prev.filter(el => el.id !== id)])
     }
     const columns = [
         {
@@ -48,8 +49,9 @@ export const EventInfo: React.FC<EventInfoProps> = ({events, setEventInfo}) => {
             key: 'isCompleted',
             render: (value: boolean, parent: IEvent) =>
                 <span
+                    key={parent.id}
                     onClick={() => toggleStatusHandler(value, parent)}
-                    style={{color: value ? 'green' : 'red',cursor:'pointer'}}>
+                    style={{color: value ? 'green' : 'red', cursor: 'pointer'}}>
                     {value ? 'completed' : 'progress'}
                 </span>
 
@@ -58,7 +60,7 @@ export const EventInfo: React.FC<EventInfoProps> = ({events, setEventInfo}) => {
             title: 'Delete',
             dataIndex: 'delete',
             key: 'delete',
-            render:(_:any,parent:IEvent)=> <DeleteOutlined onClick={()=>deleteTask(parent.id)} />
+            render: (_: any, parent: IEvent) => <DeleteOutlined key={parent.id} onClick={() => deleteTask(parent.id)}/>
         },
     ];
     return (

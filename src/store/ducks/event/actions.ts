@@ -6,6 +6,7 @@ import {
     SetEventAction,
     SetGuestsAction,
     SetIsLoadingEventAction,
+    ToggleReasonAction,
     ToggleStatusAction
 } from "./types";
 import {IUser} from "../../../models/user";
@@ -20,8 +21,12 @@ export const EventAC = {
     setError: (payload: string): SetErrorEventActions => ({type: EventActionEnum.SET_ERROR, payload}),
     setIsLoading: (payload: boolean): SetIsLoadingEventAction => ({type: EventActionEnum.SET_IS_LOADING, payload}),
     fetchAllEvents: (payload: Array<IEvent>): FetchEventsAction => ({type: EventActionEnum.FETCH_EVENTS, payload}),
-    toggleStatus:(payload:{id:string,newStatus:boolean}):ToggleStatusAction=>({type:EventActionEnum.TOGGLE_STATUS,payload}),
-    deleteEvent:(payload:string):DeleteEventAction =>({type:EventActionEnum.DELETE_EVENT,payload}),
+    toggleStatus: (payload: { id: string, newStatus: boolean }): ToggleStatusAction => ({
+        type: EventActionEnum.TOGGLE_STATUS,
+        payload
+    }),
+    deleteEvent: (payload: string): DeleteEventAction => ({type: EventActionEnum.DELETE_EVENT, payload}),
+    toggleReason: (payload: 'guest' | 'author'): ToggleReasonAction => ({type: EventActionEnum.TOGGLE_REASON, payload}),
 
     fetchGuests: () => async (dispatch: AppDispatch) => {
         try {
@@ -39,11 +44,11 @@ export const EventAC = {
     fetchEvents: (username: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(EventAC.setIsLoading(true))
-            const {data: events} = await axios.get<Array<IEvent>>(`http://localhost:3001/events`)
-            const validEvents = events.filter(el => el.guest === username)
+            const {data: events} = await axios.get<Array<IEvent>>(`http://localhost:3001/events?guest=${username}`)
+            //const validEvents = events.filter(el => el.guest === username)
 
-            if (validEvents) {
-                dispatch(EventAC.fetchAllEvents(validEvents))
+            if (events) {
+                dispatch(EventAC.fetchAllEvents(events))
             } else {
                 dispatch(EventAC.setError('Ошибка при запросе событий'))
             }
@@ -51,7 +56,6 @@ export const EventAC = {
             dispatch(EventAC.setError('Ошибка при получении гостей'))
         }
     },
-
     createEvent: (event: IEvent) => async (dispatch: AppDispatch) => {
         try {
             const {data} = await axios.post('http://localhost:3001/events', event)
@@ -64,23 +68,36 @@ export const EventAC = {
 
         }
     },
-    fetchToggleStatus: ({id,prevStatus}:any) => async (dispatch: AppDispatch) => {
+    fetchToggleStatus: ({id, prevStatus}: any) => async (dispatch: AppDispatch) => {
         try {
-            const data = await axios.patch(`http://localhost:3001/events/${id}`,{isCompleted:!prevStatus})
-            dispatch(EventAC.toggleStatus({id:data.data.id,newStatus:data.data.isCompleted}))
+            const data = await axios.patch(`http://localhost:3001/events/${id}`, {isCompleted: !prevStatus})
+            dispatch(EventAC.toggleStatus({id: data.data.id, newStatus: data.data.isCompleted}))
             return 1
-        }catch (e) {
+        } catch (e) {
             EventAC.setError('Произошла ошибка при изменении статуса')
         }
     },
-    fetchDeleteEvent:(id:string) => async (dispatch: AppDispatch) => {
+    fetchDeleteEvent: (id: string) => async (dispatch: AppDispatch) => {
         try {
             const response = await axios.delete(`http://localhost:3001/events/${id}`)
-            if(response.status === 200){
+            if (response.status === 200) {
                 dispatch(EventAC.deleteEvent(id))
             }
-        }catch (e) {
+        } catch (e) {
             EventAC.setError('Произошла ошибка при удалении ивента')
+        }
+    },
+    fetchToggleReason: ({reason, username}: any) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(EventAC.setIsLoading(true))
+            dispatch(EventAC.toggleReason(reason))
+            const {data: events} = await axios.get<Array<IEvent>>(`http://localhost:3001/events?${reason}=${username}`)
+            if (events) {
+                dispatch(EventAC.fetchAllEvents(events))
+                dispatch(EventAC.setIsLoading(false))
+            }
+        } catch (e) {
+            dispatch(EventAC.setError('Произошла ошибка при запросе ивентов определенной категории'))
         }
     }
 }

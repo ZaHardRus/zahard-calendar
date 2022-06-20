@@ -4,6 +4,7 @@ import {IUser} from "../../../models/user";
 export interface EventState {
     guests: Array<IUser>
     events: Array<IEvent>
+    reason: 'author' | 'guest'
     isLoading: boolean
     error: string
 }
@@ -15,7 +16,8 @@ export enum EventActionEnum {
     SET_ERROR = 'event/SET_ERROR',
     FETCH_EVENTS = 'event/FETCH_EVENTS',
     TOGGLE_STATUS = 'event/TOGGLE_STATUS',
-    DELETE_EVENT = 'event/DELETE_EVENT'
+    DELETE_EVENT = 'event/DELETE_EVENT',
+    TOGGLE_REASON = 'event/TOGGLE_REASON'
 }
 
 export interface SetGuestsAction {
@@ -37,17 +39,25 @@ export interface SetIsLoadingEventAction {
     type: EventActionEnum.SET_IS_LOADING,
     payload: boolean
 }
+
 export interface FetchEventsAction {
-    type:EventActionEnum.FETCH_EVENTS,
-    payload:Array<IEvent>
+    type: EventActionEnum.FETCH_EVENTS,
+    payload: Array<IEvent>
 }
+
 export interface ToggleStatusAction {
-    type:EventActionEnum.TOGGLE_STATUS,
-    payload:{id:string,newStatus:boolean}
+    type: EventActionEnum.TOGGLE_STATUS,
+    payload: { id: string, newStatus: boolean }
 }
+
 export interface DeleteEventAction {
-    type:EventActionEnum.DELETE_EVENT,
-    payload:string
+    type: EventActionEnum.DELETE_EVENT,
+    payload: string
+}
+
+export interface ToggleReasonAction {
+    type: EventActionEnum.TOGGLE_REASON,
+    payload: 'author' | 'guest'
 }
 
 export type EventsActions =
@@ -57,4 +67,5 @@ export type EventsActions =
     SetIsLoadingEventAction |
     FetchEventsAction |
     ToggleStatusAction |
-    DeleteEventAction
+    DeleteEventAction |
+    ToggleReasonAction

@@ -3,6 +3,7 @@ import {EventActionEnum, EventsActions, EventState} from "./types";
 const initialState: EventState = {
     guests: [],
     events: [],
+    reason: 'guest',
     isLoading: false,
     error: ''
 }
@@ -27,18 +28,24 @@ export const eventReducer = (state: EventState = initialState, action: EventsAct
         case EventActionEnum.SET_ERROR: {
             return {...state, error: action.payload, isLoading: false}
         }
-        case EventActionEnum.TOGGLE_STATUS:{
+        case EventActionEnum.TOGGLE_STATUS: {
             return {
                 ...state,
                 events: [...state.events.map(el => el.id === action.payload.id
-                    ? {...el,isCompleted:action.payload.newStatus}
+                    ? {...el, isCompleted: action.payload.newStatus}
                     : el)]
             }
         }
-        case EventActionEnum.DELETE_EVENT:{
+        case EventActionEnum.DELETE_EVENT: {
             return {
                 ...state,
-                events: [...state.events.filter(el=>el.id !== action.payload)]
+                events: [...state.events.filter(el => el.id !== action.payload)]
+            }
+        }
+        case EventActionEnum.TOGGLE_REASON: {
+            return {
+                ...state,
+                reason: action.payload
             }
         }
         default:

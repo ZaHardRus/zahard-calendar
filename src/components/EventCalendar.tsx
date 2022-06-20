@@ -1,20 +1,45 @@
-import {Calendar, Progress} from "antd";
-import {Moment} from "moment";
 import {FC, useState} from "react";
+import {useAppSelector} from "../store/hooks";
+
 import {IEvent} from "../models/event";
 import {formatDate} from "../utils/formatDate";
-import Modal from "antd/lib/modal/Modal";
 import {EventInfo} from "./EventInfo";
+
+import {Calendar, Progress} from "antd";
+import Modal from "antd/lib/modal/Modal";
+import {Moment} from "moment";
+
 
 interface EventCalendarProps {
     events: Array<IEvent>
 }
+
 export const EventCalendar: FC<EventCalendarProps> = ({events}) => {
+    const {reason} = useAppSelector(state => state.event)
+    const username = useAppSelector(state => state.auth.user?.username)
+
     const [isEventInfoVisible, setIsEventInfoVisible] = useState(false)
     const [eventInfo, setEventInfo] = useState<Array<IEvent>>([])
+
     function dateCellRender(value: Moment) {
-        const formatedDate = formatDate(value.toDate());
-        const currentDayEvents = events.filter(el => el.date === formatedDate);
+        const formattedDate = formatDate(value.toDate());
+
+        let currentDayEvents: Array<IEvent>;
+        switch (reason) {
+            case 'author':
+                currentDayEvents = events
+                    .filter(el => el.date === formattedDate && el.author === username)
+                    .map(el => ({...el, key: el.id}));
+                break
+            case 'guest':
+                currentDayEvents = events
+                    .filter(el => el.date === formattedDate && el.guest === username)
+                    .map(el => ({...el, key: el.id}));
+                break
+            default:
+                return
+        }
+
         const isCompletedLength = currentDayEvents.reduce((acc, el) => el.isCompleted ? acc + 1 : acc, 0)
         const percent = +((isCompletedLength / currentDayEvents.length) * 100).toFixed(0)
         return (
@@ -23,17 +48,15 @@ export const EventCalendar: FC<EventCalendarProps> = ({events}) => {
                 setIsEventInfoVisible(true)
             }}>
 
-                {!!currentDayEvents.length && <Progress width={40} type="circle" percent={percent}/>}
+                {!!currentDayEvents.length && <Progress width={30} type="circle" percent={percent}/>}
             </div>
         );
     }
 
     return (
         <>
-            <Calendar
-                onSelect={()=>setIsEventInfoVisible(true)}
-                dateCellRender={dateCellRender}
-            />
+            <Calendar dateCellRender={dateCellRender}/>
+
             <Modal
                 width={'80%'}
                 visible={isEventInfoVisible}

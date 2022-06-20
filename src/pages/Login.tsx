@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import {Button, Card, Form, Input, Layout, Row} from "antd";
 import {useActions, useAppSelector} from "../store/hooks";
+
+import {Button, Card, Form, Input, Layout, Row} from "antd";
 
 export const Login: React.FC<any> = () => {
     const [username, setUsername] = useState('')
@@ -12,7 +13,6 @@ export const Login: React.FC<any> = () => {
 
     return (
         <Layout>
-
             <Row justify={"center"} align={"middle"} className={'login'}>
                 <Card>
                     <Form onFinish={submit}>
@@ -35,7 +35,6 @@ export const Login: React.FC<any> = () => {
                     </Form>
                 </Card>
             </Row>
-
         </Layout>
     )
 }
