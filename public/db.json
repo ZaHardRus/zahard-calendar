@@ -12,19 +12,19 @@
   "events": [
     {
       "author": "Denis",
-      "date": "2022.06.20",
+      "date": "2022.06.22",
       "guest": "Denis",
       "description": "123",
-      "isCompleted": false,
-      "id": 1
+      "isCompleted": true,
+      "id": 2
     },
     {
       "author": "Denis",
-      "date": "2022.06.21",
-      "guest": "Zahard",
-      "description": "asd",
+      "date": "2022.06.23",
+      "guest": "Denis",
+      "description": "456",
       "isCompleted": false,
-      "id": 2
+      "id": 3
     }
   ]
 }

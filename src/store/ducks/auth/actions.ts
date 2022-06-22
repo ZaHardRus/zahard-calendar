@@ -13,7 +13,7 @@ export const AuthAC = {
         try {
             dispatch(AuthAC.setIsLoading(true))
             setTimeout(async () => {
-                const {data: users} = await axios.get<Array<IUser>>('http://localhost:3001/users')
+                const {data: users} = await axios.get<Array<IUser>>('/users')
                 const result = users.find((el: IUser) => el.username === username && el.password === password)
                 if (result) {
                     localStorage.setItem('auth', 'true')

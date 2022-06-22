@@ -28,12 +28,14 @@
     "typescript": "^4.7.3",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "http://localhost:3001/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server --watch db1.json --port 3001"
+    "server": "json-server --watch public/db.json --port 3001",
+    "devserver": "json-server --watch db.json --port 3001"
   },
   "eslintConfig": {
     "extends": [

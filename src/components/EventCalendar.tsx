@@ -58,6 +58,7 @@ export const EventCalendar: FC<EventCalendarProps> = ({events}) => {
             <Calendar dateCellRender={dateCellRender}/>
 
             <Modal
+                footer={null}
                 width={'80%'}
                 visible={isEventInfoVisible}
                 onCancel={() => {

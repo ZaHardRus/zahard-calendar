@@ -31,7 +31,7 @@ export const EventAC = {
     fetchGuests: () => async (dispatch: AppDispatch) => {
         try {
             dispatch(EventAC.setIsLoading(true))
-            const {data: guests} = await axios.get('http://localhost:3001/users')
+            const {data: guests} = await axios.get('/users')
             if (guests) {
                 dispatch(EventAC.setGuests(guests))
             } else {
@@ -44,7 +44,7 @@ export const EventAC = {
     fetchEvents: (username: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(EventAC.setIsLoading(true))
-            const {data: events} = await axios.get<Array<IEvent>>(`http://localhost:3001/events?guest=${username}`)
+            const {data: events} = await axios.get<Array<IEvent>>(`/events?guest=${username}`)
             //const validEvents = events.filter(el => el.guest === username)
 
             if (events) {
@@ -58,7 +58,7 @@ export const EventAC = {
     },
     createEvent: (event: IEvent) => async (dispatch: AppDispatch) => {
         try {
-            const {data} = await axios.post('http://localhost:3001/events', event)
+            const {data} = await axios.post('/events', event)
             if (data) {
                 dispatch(EventAC.setEvents(data))
             } else {
@@ -70,7 +70,7 @@ export const EventAC = {
     },
     fetchToggleStatus: ({id, prevStatus}: any) => async (dispatch: AppDispatch) => {
         try {
-            const data = await axios.patch(`http://localhost:3001/events/${id}`, {isCompleted: !prevStatus})
+            const data = await axios.patch(`/events/${id}`, {isCompleted: !prevStatus})
             dispatch(EventAC.toggleStatus({id: data.data.id, newStatus: data.data.isCompleted}))
             return 1
         } catch (e) {
@@ -79,7 +79,7 @@ export const EventAC = {
     },
     fetchDeleteEvent: (id: string) => async (dispatch: AppDispatch) => {
         try {
-            const response = await axios.delete(`http://localhost:3001/events/${id}`)
+            const response = await axios.delete(`/events/${id}`)
             if (response.status === 200) {
                 dispatch(EventAC.deleteEvent(id))
             }
@@ -91,7 +91,7 @@ export const EventAC = {
         try {
             dispatch(EventAC.setIsLoading(true))
             dispatch(EventAC.toggleReason(reason))
-            const {data: events} = await axios.get<Array<IEvent>>(`http://localhost:3001/events?${reason}=${username}`)
+            const {data: events} = await axios.get<Array<IEvent>>(`/events?${reason}=${username}`)
             if (events) {
                 dispatch(EventAC.fetchAllEvents(events))
                 dispatch(EventAC.setIsLoading(false))

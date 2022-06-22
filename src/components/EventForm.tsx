@@ -1,13 +1,13 @@
-import {Dispatch, FC, SetStateAction, useState} from "react";
+import {Dispatch, FC, FormEvent, SetStateAction, useState} from "react";
 import {useActions, useAppSelector} from "../store/hooks";
 
 import {formatDate} from "../utils/formatDate";
 import {IEvent} from "../models/event";
 
-import {Button, DatePicker, Form, Row, Select} from "antd";
+import {Button, DatePicker, Row, Select} from "antd";
 import TextArea from "antd/lib/input/TextArea";
 
-import moment, {Moment} from "moment";
+import {Moment} from "moment";
 
 
 interface EventFormProps {
@@ -15,10 +15,10 @@ interface EventFormProps {
 }
 
 export const EventForm: FC<EventFormProps> = ({setEventFormVisible}) => {
-    const {guests} = useAppSelector(state => state.event)
     const author = useAppSelector(state => state?.auth?.user?.username) as string
+    const {guests} = useAppSelector(state => state.event)
 
-    const [event, setEvent] = useState<IEvent>({author, date: '', guest: '', description: '', isCompleted: false})
+    const [event, setEvent] = useState<IEvent>({author, date: '', guest: author, description: '', isCompleted: false})
 
     const {createEvent} = useActions()
 
@@ -27,41 +27,45 @@ export const EventForm: FC<EventFormProps> = ({setEventFormVisible}) => {
             setEvent(prev => ({...prev, date: formatDate(date?.toDate())}))
         }
     }
-    const submitForm = (e: any) => {
+    const submitForm = (e: FormEvent) => {
+        e.preventDefault()
         createEvent(event)
         setEvent(() => ({author, guest: '', date: '', description: '', isCompleted: false}))
         setEventFormVisible(false)
     }
     return (
-        <Form onFinish={submitForm} initialValues={{description: '', date: moment(), guest: ''}}>
+        <form onSubmit={submitForm}>
+            <div>
+                <TextArea
+                    placeholder='Добавить текст события'
+                    value={event.description}
+                    rows={2}
+                    autoSize
+                    onChange={(e) => setEvent(prev => ({...prev, description: e.target.value}))}/>
+            </div>
 
-            <Form.Item label={'Описание события'} name={'description'}>
-                <TextArea value={event.description} rows={6} autoSize
-                          onChange={(e) => setEvent(prev => ({...prev, description: e.target.value}))}/>
-            </Form.Item>
+            <div>
+                <span>Дата:</span>
+                <DatePicker style={{width: '75%'}}
+                            onChange={date => selectDate(date)}/>
+            </div>
 
-            <Form.Item label={'Дата'} name={'date'}>
-                <DatePicker onChange={date => selectDate(date)}/>
-            </Form.Item>
-
-            <Form.Item label={'Пользователи'} name={'guest'}>
-                <Select onChange={guest => setEvent(prev => ({...prev, guest: guest}))}>
+            <div>
+                <span>Исполнитель:</span>
+                <Select style={{width: '75%'}}
+                        value={event.guest}
+                        onChange={guest => setEvent(prev => ({...prev, guest: guest}))}>
                     {guests.length && guests.map(el =>
                         <Select.Option key={el.username} value={el.username}>
                             {el.username}
                         </Select.Option>)}
                 </Select>
-            </Form.Item>
+            </div>
 
             <Row justify={"end"}>
-                <Form.Item>
-                    <Button htmlType='reset'>Reset</Button>
-                </Form.Item>
-                <Form.Item>
-                    <Button htmlType='submit'>Создать событие</Button>
-                </Form.Item>
+                <Button htmlType='submit'>Создать событие</Button>
             </Row>
 
-        </Form>
+        </form>
     )
 }

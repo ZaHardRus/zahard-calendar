@@ -31,7 +31,15 @@
     border-radius: 50% !important;
     z-index: 1001;
 }
-
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+form>div+div{
+    display: flex;
+    justify-content: space-between;
+}
 .ant-picker-calendar-date-content{
     display: flex;
     align-items: center;
