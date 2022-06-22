@@ -47,7 +47,6 @@ export const EventCalendar: FC<EventCalendarProps> = ({events}) => {
                 setEventInfo([...currentDayEvents])
                 setIsEventInfoVisible(true)
             }}>
-
                 {!!currentDayEvents.length && <Progress width={30} type="circle" percent={percent}/>}
             </div>
         );

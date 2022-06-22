@@ -5,7 +5,8 @@ const initialState: AuthState = {
     isAuth: false,
     user: null,
     isLoading: false,
-    error: ''
+    error: '',
+    status: 'login'
 }
 export const authReducer = (state: AuthState = initialState, action: AuthActions): AuthState => {
     switch (action.type) {
@@ -22,6 +23,8 @@ export const authReducer = (state: AuthState = initialState, action: AuthActions
         case AuthActionEnum.SET_IS_LOADING:
             return {...state, isLoading: action.payload}
 
+        case AuthActionEnum.SET_STATUS:
+            return {...state, status: action.payload,isLoading:false}
         default:
             return state
     }

@@ -4,10 +4,9 @@ import {useActions, useAppSelector} from "../store/hooks";
 import {Button, Layout, Menu, Row} from "antd";
 
 export const Header = () => {
-    const {isAuth, user} = useAppSelector(state => state.auth)
+    const {isAuth, user, status} = useAppSelector(state => state.auth)
     const {reason} = useAppSelector(state => state.event)
-    const {toggleReason} = useActions()
-    const {logout} = useActions()
+    const {logout, toggleReason, setStatus} = useActions()
     const logoutHandler = () => {
         logout()
     }
@@ -17,16 +16,15 @@ export const Header = () => {
                 isAuth
                     ? <Layout.Header className={'header'}>
                         <Row justify={"space-between"}>
-                            <div>
-                                <div>
-                                    <Button
-                                        type={reason === 'guest' ? 'primary' : 'default'}
-                                        onClick={() => toggleReason('guest')}>Назначены мне</Button>
-                                    <Button
-                                        type={reason === 'author' ? 'primary' : 'default'}
-                                        onClick={() => toggleReason('author')}>Назначены мной</Button>
-                                </div>
+                            <div className={'header__button-wrapper'}>
+                                <Button
+                                    type={reason === 'guest' ? 'primary' : 'default'}
+                                    onClick={() => toggleReason('guest')}>Назначены мне</Button>
+                                <Button
+                                    type={reason === 'author' ? 'primary' : 'default'}
+                                    onClick={() => toggleReason('author')}>Назначены мною</Button>
                             </div>
+
                             <div style={{color: '#fff'}}>{user?.username}</div>
                             <Menu theme={'dark'} mode="horizontal" selectable={false}>
                                 <Menu.Item key={1} onClick={logoutHandler}>Выйти</Menu.Item>
@@ -38,7 +36,9 @@ export const Header = () => {
                     <Layout.Header>
                         <Row justify={"end"}>
                             <Menu theme={'dark'} mode="horizontal" selectable={false}>
-                                <Menu.Item key={1}> Авторизация </Menu.Item>
+                                <Menu.Item
+                                    onClick={() => setStatus(status === 'login' ? 'registration' : 'login')}
+                                    key={1}>{status === 'login' ? 'Авторизация' : 'Регистрация'} </Menu.Item>
                             </Menu>
                         </Row>
                     </Layout.Header>

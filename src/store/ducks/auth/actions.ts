@@ -1,4 +1,11 @@
-import {AuthActionEnum, SetErrorAction, SetIsAuthAction, SetIsLoadingAction, SetUserAction} from "./types";
+import {
+    AuthActionEnum,
+    SetErrorAction,
+    SetIsAuthAction,
+    SetIsLoadingAction,
+    SetStatusAction,
+    SetUserAction
+} from "./types";
 import {IUser} from "../../../models/user";
 import {AppDispatch} from "../..";
 import axios from "axios";
@@ -8,6 +15,7 @@ export const AuthAC = {
     setUser: (payload: IUser | null): SetUserAction => ({type: AuthActionEnum.SET_USER, payload}),
     setError: (payload: string): SetErrorAction => ({type: AuthActionEnum.SET_ERROR, payload}),
     setIsLoading: (payload: boolean): SetIsLoadingAction => ({type: AuthActionEnum.SET_IS_LOADING, payload}),
+    setStatus: (payload: 'registration' | 'login'): SetStatusAction => ({type: AuthActionEnum.SET_STATUS, payload}),
 
     login: (username: string, password: string): any => async (dispatch: AppDispatch) => {
         try {
@@ -26,6 +34,17 @@ export const AuthAC = {
             }, 2000)
         } catch (e) {
             dispatch(AuthAC.setError('login error'))
+        }
+    },
+    registration: (username: string, password: string): any => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(AuthAC.setIsLoading(true))
+            const {data} = await axios.post('/users', {username, password})
+            if (data) {
+                dispatch(AuthAC.setStatus("login"))
+            }
+        } catch (e) {
+            dispatch(AuthAC.setError('При регистрации произошла ошибка'))
         }
     },
 

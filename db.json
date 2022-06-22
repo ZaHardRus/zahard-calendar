@@ -1,38 +1,25 @@
 {
   "users": [
     {
+      "id": 1,
       "username": "Denis",
       "password": "123456"
     },
     {
+      "id": 2,
       "username": "Zahard",
       "password": "123"
-    }
-  ],
-  "events": [
-    {
-      "author": "Denis",
-      "date": "2022.06.22",
-      "guest": "Denis",
-      "description": "123",
-      "isCompleted": true,
-      "id": 2
     },
     {
-      "author": "Denis",
-      "date": "2022.06.23",
-      "guest": "Denis",
-      "description": "456",
-      "isCompleted": false,
+      "username": "newUser",
+      "password": "123",
       "id": 3
     },
     {
-      "author": "Zahard",
-      "date": "2022.06.23",
-      "guest": "Denis",
-      "description": "123",
-      "isCompleted": false,
+      "username": "new",
+      "password": "123",
       "id": 4
     }
-  ]
+  ],
+  "events": []
 }

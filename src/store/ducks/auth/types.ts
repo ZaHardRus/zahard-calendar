@@ -4,7 +4,8 @@ export interface AuthState {
     isAuth: boolean,
     user: IUser | null,
     isLoading: boolean,
-    error: string
+    error: string,
+    status:'registration'|'login'
 }
 
 export enum AuthActionEnum {
@@ -12,6 +13,7 @@ export enum AuthActionEnum {
     SET_USER = 'SET_USER',
     SET_IS_LOADING = 'SET_IS_LOADING',
     SET_ERROR = 'SET_ERROR',
+    SET_STATUS = 'SET_STATUS'
 }
 
 export interface SetIsAuthAction {
@@ -33,9 +35,14 @@ export interface SetIsLoadingAction {
     type: AuthActionEnum.SET_IS_LOADING,
     payload: boolean
 }
+export interface SetStatusAction{
+    type: AuthActionEnum.SET_STATUS,
+    payload:'login' | 'registration'
+}
 
 export type AuthActions =
     SetIsAuthAction |
     SetErrorAction |
     SetUserAction |
-    SetIsLoadingAction
+    SetIsLoadingAction |
+    SetStatusAction
