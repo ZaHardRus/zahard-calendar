@@ -7,6 +7,9 @@ const middlewares = jsonServer.defaults({
 });
 
 const PORT = process.env.PORT || 3001;
+server.get("/auth", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
 server.use(middlewares);
 server.use(router);
 

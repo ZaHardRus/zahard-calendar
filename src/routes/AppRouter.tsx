@@ -8,11 +8,11 @@ export const AppRouter = () => {
     const routes = (isAuth: boolean) => [
         {
             path: '/*',
-            element: isAuth ? <Events/> : <Navigate to="/login"/>,
+            element: isAuth ? <Events/> : <Navigate to="/auth"/>,
         },
 
         {
-            path: '/login',
+            path: '/auth',
             element: !isAuth ? <Login/> : <Navigate to="/"/>,
         },
     ];

@@ -1,30 +1,8 @@
 {
   "users": [
-    {
-      "username": "Denis",
-      "password": "123456"
-    },
-    {
-      "username": "Zahard",
-      "password": "123"
-    }
+
   ],
   "events": [
-    {
-      "author": "Denis",
-      "date": "2022.06.22",
-      "guest": "Denis",
-      "description": "123",
-      "isCompleted": true,
-      "id": 2
-    },
-    {
-      "author": "Denis",
-      "date": "2022.06.23",
-      "guest": "Denis",
-      "description": "456",
-      "isCompleted": false,
-      "id": 3
-    }
+
   ]
 }
