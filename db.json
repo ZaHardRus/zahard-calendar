@@ -21,5 +21,14 @@
       "id": 4
     }
   ],
-  "events": []
+  "events": [
+    {
+      "author": "Denis",
+      "guest": "Zahard",
+      "date": "",
+      "description": "456",
+      "isCompleted": false,
+      "id": 1
+    }
+  ]
 }

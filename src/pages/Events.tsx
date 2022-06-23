@@ -17,11 +17,11 @@ export const Events: React.FC<any> = () => {
     const {events, reason} = useAppSelector(state => state.event)
     const username = useAppSelector(state => state.auth.user?.username) as string
 
-    const {fetchGuests, fetchToggleReason} = useActions()
+    const {fetchGuests, fetchEventByReason} = useActions()
 
     useEffect(() => {
         fetchGuests()
-        fetchToggleReason({reason, username})
+        fetchEventByReason({reason, username})
     }, [username, reason])
 
     return (

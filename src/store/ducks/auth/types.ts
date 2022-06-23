@@ -9,11 +9,11 @@ export interface AuthState {
 }
 
 export enum AuthActionEnum {
-    SET_IS_AUTH = 'SET_IS_AUTH',
-    SET_USER = 'SET_USER',
-    SET_IS_LOADING = 'SET_IS_LOADING',
-    SET_ERROR = 'SET_ERROR',
-    SET_STATUS = 'SET_STATUS'
+    SET_IS_AUTH = 'auth/SET_IS_AUTH',
+    SET_USER = 'auth/SET_USER',
+    SET_IS_LOADING = 'auth/SET_IS_LOADING',
+    SET_ERROR = 'auth/SET_ERROR',
+    SET_STATUS = 'auth/SET_STATUS'
 }
 
 export interface SetIsAuthAction {

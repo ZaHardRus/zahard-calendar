@@ -31,7 +31,7 @@ export const eventReducer = (state: EventState = initialState, action: EventsAct
         case EventActionEnum.TOGGLE_STATUS: {
             return {
                 ...state,
-                events: [...state.events.map(el => el.id === action.payload.id
+                events: [...state.events.map(el => (el.id === action.payload.id)
                     ? {...el, isCompleted: action.payload.newStatus}
                     : el)]
             }

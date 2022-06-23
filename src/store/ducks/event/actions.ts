@@ -12,7 +12,8 @@ import {
 import {IUser} from "../../../models/user";
 import {IEvent} from "../../../models/event";
 import {AppDispatch} from "../../index";
-import axios from "axios";
+import {UserService} from "../../../API/UserService";
+import {EventService} from "../../../API/EventService";
 
 
 export const EventAC = {
@@ -31,7 +32,7 @@ export const EventAC = {
     fetchGuests: () => async (dispatch: AppDispatch) => {
         try {
             dispatch(EventAC.setIsLoading(true))
-            const {data: guests} = await axios.get('/users')
+            const guests = await UserService.getAllUsers()
             if (guests) {
                 dispatch(EventAC.setGuests(guests))
             } else {
@@ -41,24 +42,23 @@ export const EventAC = {
             dispatch(EventAC.setError('Ошибка при получении гостей'))
         }
     },
-    fetchEvents: (username: string) => async (dispatch: AppDispatch) => {
+    fetchEventByReason: ({reason, username}: any) => async (dispatch: AppDispatch) => {
         try {
             dispatch(EventAC.setIsLoading(true))
-            const {data: events} = await axios.get<Array<IEvent>>(`/events?guest=${username}`)
-            //const validEvents = events.filter(el => el.guest === username)
-
+            dispatch(EventAC.toggleReason(reason))
+            const events = await EventService.getAllEventsByReason(reason, username)
             if (events) {
                 dispatch(EventAC.fetchAllEvents(events))
-            } else {
-                dispatch(EventAC.setError('Ошибка при запросе событий'))
+                dispatch(EventAC.setIsLoading(false))
             }
         } catch (e) {
-            dispatch(EventAC.setError('Ошибка при получении гостей'))
+            dispatch(EventAC.setError('Произошла ошибка при запросе ивентов определенной категории'))
         }
     },
+
     createEvent: (event: IEvent) => async (dispatch: AppDispatch) => {
         try {
-            const {data} = await axios.post('/events', event)
+            const {data} = await EventService.addNewEvent(event)
             if (data) {
                 dispatch(EventAC.setEvents(data))
             } else {
@@ -68,18 +68,9 @@ export const EventAC = {
 
         }
     },
-    fetchToggleStatus: ({id, prevStatus}: any) => async (dispatch: AppDispatch) => {
-        try {
-            const data = await axios.patch(`/events/${id}`, {isCompleted: !prevStatus})
-            dispatch(EventAC.toggleStatus({id: data.data.id, newStatus: data.data.isCompleted}))
-            return 1
-        } catch (e) {
-            EventAC.setError('Произошла ошибка при изменении статуса')
-        }
-    },
     fetchDeleteEvent: (id: string) => async (dispatch: AppDispatch) => {
         try {
-            const response = await axios.delete(`/events/${id}`)
+            const response = await EventService.removeEventById(id)
             if (response.status === 200) {
                 dispatch(EventAC.deleteEvent(id))
             }
@@ -87,17 +78,15 @@ export const EventAC = {
             EventAC.setError('Произошла ошибка при удалении ивента')
         }
     },
-    fetchToggleReason: ({reason, username}: any) => async (dispatch: AppDispatch) => {
+    fetchToggleStatus: ({id, prevStatus}: any) => async (dispatch: AppDispatch) => {
         try {
-            dispatch(EventAC.setIsLoading(true))
-            dispatch(EventAC.toggleReason(reason))
-            const {data: events} = await axios.get<Array<IEvent>>(`/events?${reason}=${username}`)
-            if (events) {
-                dispatch(EventAC.fetchAllEvents(events))
-                dispatch(EventAC.setIsLoading(false))
+            const data = await EventService.toggleStatusById({id, prevStatus})
+            if (data) {
+                dispatch(EventAC.toggleStatus({id: data.data.id, newStatus: data.data.isCompleted}))
             }
+            return 1
         } catch (e) {
-            dispatch(EventAC.setError('Произошла ошибка при запросе ивентов определенной категории'))
+            EventAC.setError('Произошла ошибка при изменении статуса')
         }
-    }
+    },
 }

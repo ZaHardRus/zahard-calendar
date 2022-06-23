@@ -8,7 +8,7 @@ import {
 } from "./types";
 import {IUser} from "../../../models/user";
 import {AppDispatch} from "../..";
-import axios from "axios";
+import {UserService} from "../../../API/UserService";
 
 export const AuthAC = {
     setIsAuth: (payload: boolean): SetIsAuthAction => ({type: AuthActionEnum.SET_IS_AUTH, payload}),
@@ -21,7 +21,7 @@ export const AuthAC = {
         try {
             dispatch(AuthAC.setIsLoading(true))
             setTimeout(async () => {
-                const {data: users} = await axios.get<Array<IUser>>('/users')
+                const users = await UserService.getAllUsers()
                 const result = users.find((el: IUser) => el.username === username && el.password === password)
                 if (result) {
                     localStorage.setItem('auth', 'true')
@@ -39,7 +39,7 @@ export const AuthAC = {
     registration: (username: string, password: string): any => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthAC.setIsLoading(true))
-            const {data} = await axios.post('/users', {username, password})
+            const data = await UserService.registration(username, password)
             if (data) {
                 dispatch(AuthAC.setStatus("login"))
             }
@@ -47,7 +47,6 @@ export const AuthAC = {
             dispatch(AuthAC.setError('При регистрации произошла ошибка'))
         }
     },
-
     logout: (): any => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthAC.setIsLoading(true))
