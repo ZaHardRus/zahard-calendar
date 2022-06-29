@@ -1,0 +1,101 @@
+.login {
+  height: calc(100vh - 64px);
+}
+
+.header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 80px;
+  background-color: rgb(11, 22, 52);
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 496px) {
+    padding: 20px 0;
+    justify-content: center;
+  }
+}
+
+.header__button-wrapper {
+  padding-left: 30px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  @media (max-width: 479px) {
+    padding-left: 0;
+    .child {
+      width: 50px;
+      @media (max-width: 480px) {
+          span:nth-child(2) {
+            display: none;
+        }
+      }
+    }
+  }
+}
+
+.ant-form-item-control-input-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ant-card-body {
+  width: 350px;
+}
+
+.calendar {
+  width: 80%;
+  margin: 88px auto;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: fixed;
+  left: 60px;
+  bottom: 60px
+}
+
+.button-wrapper > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-btn {
+  width: 50px;
+  border-radius: 50%;
+  z-index: 1001;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+form > div + div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ant-picker-calendar-date-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-picker-cell {
+  border: 1px solid rgba(0, 0, 0, .1);
+}
+
+.ant-picker-content > thead > tr > th {
+  background-color: #f3f3f3;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  text-transform: capitalize;
+  font-weight: 600;
+}
